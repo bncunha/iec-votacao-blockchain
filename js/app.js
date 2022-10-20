@@ -93,6 +93,24 @@ function populaCandidatos(candidatos) {
         });
 }
 
+const toObject = (array) => array.reduce((prev, cur) => {
+	prev[cur.name] = cur.value;
+	return prev
+}, {})
+
+$("#give-right-form").submit(function(e) {
+	e.preventDefault();
+	const data = toObject($("#give-right-form").serializeArray())
+	console.log(data)
+	eleicao.methods.giveRightToVote(data.address)
+	.send({from: myAddress})
+	.then(() => window.location.reload())
+	.catch((error) => {
+		console.error(error)
+		alert('Erro! Consulte o log!')
+	})
+});
+
 
 $("#btnVote").on('click',function(){
 	candidato = $("#candidate-options").children("option:selected").val();
