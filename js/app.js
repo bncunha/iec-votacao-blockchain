@@ -93,6 +93,10 @@ function populaCandidatos(candidatos) {
         });
 }
 
+function buscarEleitores() {
+
+}
+
 const toObject = (array) => array.reduce((prev, cur) => {
 	prev[cur.name] = cur.value;
 	return prev
@@ -104,7 +108,7 @@ $("#give-right-form").submit(function(e) {
 	console.log(data)
 	eleicao.methods.giveRightToVote(data.address, data.name)
 	.send({from: myAddress})
-	.then(() => window.location.reload())
+	.then(() => buscarEleitores())
 	.catch((error) => {
 		console.error(error)
 		alert('Erro! Consulte o log!')
