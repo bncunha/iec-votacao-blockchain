@@ -73,6 +73,7 @@ function populaCandidatos(candidatos) {
 	while(tableElem.rows.length > 0) {
 		tableElem.deleteRow(0);
 	}
+	$("#candidate-options option").remove();
 	candidatos.forEach((candidato, index) => {
 		// Creates a row element.
 		const rowElem = document.createElement("tr");
@@ -128,6 +129,19 @@ $("#add-candidate-form").submit((e) => {
 	eleicao.methods.addProposal(data.name)
 	.send({from: myAddress})
 	.then(() => getCandidatos(populaCandidatos))
+	.catch((error) => {
+		console.error(error)
+		alert('Erro! Consulte o log!')
+	})
+})
+
+$("#delegate-form").submit((e) => {
+	e.preventDefault();
+	const data = toObject($("#delegate-form").serializeArray())
+	console.log(data)
+	eleicao.methods.delegate(data.address)
+	.send({from: myAddress})
+	.then(() => buscarEleitores())
 	.catch((error) => {
 		console.error(error)
 		alert('Erro! Consulte o log!')
