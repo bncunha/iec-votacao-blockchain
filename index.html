@@ -44,7 +44,8 @@
       <div class="col-md-12">
         <h4> Lista eleitores </h4>
         <form id="give-right-form" class="form-inline">
-          <input type="text" name="address" id="right-address" class="form-control mr-3" placeholder="Endereço da Blochain" required/>
+          <input type="text" name="name" id="right-name" class="form-control mr-3" placeholder="Nome" required/>
+          <input type="text" name="address" id="right-address" class="form-control mr-3" placeholder="Endereço da Blokchain" required/>
           <button type="submit" class="btn btn-primary" id="btnRightVote"> + Dar direito ao voto </button>
         </form>
         <table class="table table-bordered" id="lista-eleitores">
@@ -75,12 +76,8 @@
       <h4> Delegar voto </h4>
       <form id="delegate-form">
         <div class="form-group">
-          <label for="delegate-name">Nome</label>
-          <input type="text" name="name" id="delegate-name" class="form-control"/>
-        </div>
-        <div class="form-group">
           <label for="delegate-address">Endereço blockchain</label>
-          <input type="text" name="address" id="delegate-address" class="form-control"/>
+          <input type="text" name="address" id="delegate-address" class="form-control" required/>
         </div>
         <button type="button" class="btn btn-primary" id="btnDelegate">Delegar</button>
       </form>

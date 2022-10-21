@@ -6,7 +6,7 @@ const voteForm = document.getElementById("vote-form");
 var proposals = [];
 var myAddress;
 var eleicao;
-const CONTRACT_ADDRESS = "0x7BD10CBa505De597bF8e95c9f9b88f895C600DFB";
+const CONTRACT_ADDRESS = "0xB20D22F0A462412f8394bc3b209Ec3FD859d8cBf";
 
 
 const ethEnabled = () => {
@@ -102,7 +102,7 @@ $("#give-right-form").submit(function(e) {
 	e.preventDefault();
 	const data = toObject($("#give-right-form").serializeArray())
 	console.log(data)
-	eleicao.methods.giveRightToVote(data.address)
+	eleicao.methods.giveRightToVote(data.address, data.name)
 	.send({from: myAddress})
 	.then(() => window.location.reload())
 	.catch((error) => {
