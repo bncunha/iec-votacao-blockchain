@@ -6,7 +6,7 @@ const voteForm = document.getElementById("vote-form");
 var proposals = [];
 var myAddress;
 var eleicao;
-const CONTRACT_ADDRESS = "0x33FFbeEEbBf4002766B580f14ed27eb4F2e66f79";
+const CONTRACT_ADDRESS = "0x85B54B20Aa44bCF88e52ff0c494d480D414964db";
 
 
 const ethEnabled = () => {
@@ -43,11 +43,22 @@ window.addEventListener('load', async function() {
 
 		eleicao = new web3.eth.Contract(VotingContractInterface, CONTRACT_ADDRESS);
 		getCandidatos(populaCandidatos);
-		setTimeout(() => {
-			getCandidatos(populaCandidatos);
-		}, 5000);
+		verificarEncerramento();
 	}
 });
+
+function verificarEncerramento() {
+	eleicao.methods.finalizado().call().then((encerrado) => {
+		if (!encerrado) return;
+
+		eleicao.methods.winnerName().call().then((vencedor) => {
+			exibirEncerramento(vencedor)
+		})
+	}).catch(err => {
+		console.error(err);
+		alert('Erro! Verifique o log')
+	})
+}
 
 function getCandidatos(callback)
 {
@@ -104,6 +115,11 @@ function buscarEleitores() {
 
 }
 
+function exibirEncerramento(nomeVencedor) {
+	$("#secao-encerramento").css({ display: "block"})
+	$("#nome-vencedor").text(nomeVencedor)
+}
+
 const toObject = (array) => array.reduce((prev, cur) => {
 	prev[cur.name] = cur.value;
 	return prev
@@ -148,18 +164,25 @@ $("#delegate-form").submit((e) => {
 	})
 })
 
+$("#btn-finalizar").click(() => {
+	eleicao.methods.finalizarEleicao()
+	.send({from: myAddress})
+	.then(() => exibirEncerramento())
+	.catch((error) => {
+		console.error(error)
+		alert('Erro! Consulte o log!')
+	})
+})
+
 
 $("#btnVote").on('click',function(){
 	candidato = $("#candidate-options").children("option:selected").val();
-
-        eleicao.methods.vote(candidato).send({from: myAddress})
-	       .on('receipt',function(receipt) {
-			//getCandidatos(eleicao, populaCandidatos);
-			windows.location.reaload(true);
+	eleicao.methods.vote(candidato).send({from: myAddress})
+		.on('receipt',function(receipt) {
+			getCandidatos(populaCandidatos)
 		})
 		.on('error',function(error) {
 			console.log(error.message);
-               		return;     
-        	});  
+		});  
 
 });

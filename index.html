@@ -7,6 +7,13 @@
 <body class="container">
   <h1 class="text-center" style="margin-bottom: 40px;">Uma Simples Aplicação de Votação com Ethereum</h1>
 
+  <div id="secao-encerramento" class="mb-5" style="display: none;">
+    <h2 class="text-danger text-center"> Votação Encerrada! </h2>
+    <h3 class="text-center">
+      Vencedor: <span id="nome-vencedor"></span>
+    </h3>
+  </div>
+
   <div id="botoes-holder" class="row mb-4">
     <div class="offset-md-5 col-md-6">
       <button id="botaoAdm" class="btn btn-primary"> Administrador </button>
@@ -36,7 +43,7 @@
         </form>
       </div>
       <div class="col-md-6 text-right">
-        <button type="button" class="btn btn-danger"> Finalizar votação </button>
+        <button id="btn-finalizar" type="button" class="btn btn-danger"> Finalizar votação </button>
       </div>
     </div>
 

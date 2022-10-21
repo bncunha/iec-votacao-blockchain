@@ -26,6 +26,19 @@ var VotingContractInterface = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "finalizarEleicao",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "winner",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -69,6 +82,19 @@ var VotingContractInterface = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "finalizado",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
