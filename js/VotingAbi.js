@@ -2,6 +2,19 @@ var VotingContractInterface = [
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "addProposal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "to",
 				"type": "address"
@@ -72,9 +85,9 @@ var VotingContractInterface = [
 		"name": "getProposal",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "string",
 				"name": "name",
-				"type": "bytes32"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -122,9 +135,9 @@ var VotingContractInterface = [
 		"name": "proposals",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "string",
 				"name": "name",
-				"type": "bytes32"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -198,9 +211,9 @@ var VotingContractInterface = [
 		"name": "winnerName",
 		"outputs": [
 			{
-				"internalType": "bytes32",
+				"internalType": "string",
 				"name": "winnerName_",
-				"type": "bytes32"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",

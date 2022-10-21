@@ -6,7 +6,7 @@ const voteForm = document.getElementById("vote-form");
 var proposals = [];
 var myAddress;
 var eleicao;
-const CONTRACT_ADDRESS = "0xB20D22F0A462412f8394bc3b209Ec3FD859d8cBf";
+const CONTRACT_ADDRESS = "0x33FFbeEEbBf4002766B580f14ed27eb4F2e66f79";
 
 
 const ethEnabled = () => {
@@ -42,19 +42,22 @@ window.addEventListener('load', async function() {
 		getMyAccounts(await web3.eth.getAccounts());
 
 		eleicao = new web3.eth.Contract(VotingContractInterface, CONTRACT_ADDRESS);
-		getCandidatos(eleicao, populaCandidatos);
+		getCandidatos(populaCandidatos);
+		setTimeout(() => {
+			getCandidatos(populaCandidatos);
+		}, 5000);
 	}
 });
 
-function getCandidatos(contractRef,callback)
+function getCandidatos(callback)
 {
-	//contractRef.methods.getProposalsCount().call().then((count)=>{
-	contractRef.methods.getProposalsCount().call(async function (error, count) {
+	eleicao.methods.getProposalsCount().call(async function (error, count) {
+		proposals = [];
 		for (i=0; i<count; i++) {
-			await contractRef.methods.getProposal(i).call().then((data)=>{
+			await eleicao.methods.getProposal(i).call().then((data)=>{
 				var proposal = {
-          				name : web3.utils.toUtf8(data[0]),
-          				voteCount : data[1]
+          				name : data.name,
+          				voteCount : data.voteCount
       				};
 				proposals.push(proposal);
  			});
@@ -67,6 +70,9 @@ function getCandidatos(contractRef,callback)
 }
 
 function populaCandidatos(candidatos) {
+	while(tableElem.rows.length > 0) {
+		tableElem.deleteRow(0);
+	}
 	candidatos.forEach((candidato, index) => {
 		// Creates a row element.
 		const rowElem = document.createElement("tr");
@@ -90,7 +96,7 @@ function populaCandidatos(candidatos) {
 		candidateOption.value = index;
 		candidateOption.innerText = candidato.name;
 		candidateOptions.appendChild(candidateOption);
-        });
+	});
 }
 
 function buscarEleitores() {
@@ -114,6 +120,19 @@ $("#give-right-form").submit(function(e) {
 		alert('Erro! Consulte o log!')
 	})
 });
+
+$("#add-candidate-form").submit((e) => {
+	e.preventDefault();
+	const data = toObject($("#add-candidate-form").serializeArray())
+	console.log(data)
+	eleicao.methods.addProposal(data.name)
+	.send({from: myAddress})
+	.then(() => getCandidatos(populaCandidatos))
+	.catch((error) => {
+		console.error(error)
+		alert('Erro! Consulte o log!')
+	})
+})
 
 
 $("#btnVote").on('click',function(){
