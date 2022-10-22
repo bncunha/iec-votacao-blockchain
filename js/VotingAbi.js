@@ -57,6 +57,11 @@ var VotingContractInterface = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -71,12 +76,26 @@ var VotingContractInterface = [
 	},
 	{
 		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"name": "chairperson",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "chairperson",
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "eleitores",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -138,19 +157,6 @@ var VotingContractInterface = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getVoterAddresses",
-		"outputs": [
-			{
-				"internalType": "address[]",
-				"name": "addresss",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -175,19 +181,45 @@ var VotingContractInterface = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "voterAddresses",
+		"inputs": [],
+		"name": "retornarEleitores",
 		"outputs": [
 			{
-				"internalType": "address",
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "weight",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "voted",
+						"type": "bool"
+					},
+					{
+						"internalType": "address",
+						"name": "delegate",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "vote",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "enderecoproprio",
+						"type": "address"
+					}
+				],
+				"internalType": "struct Ballot.Voter[]",
 				"name": "",
-				"type": "address"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -227,6 +259,11 @@ var VotingContractInterface = [
 				"internalType": "string",
 				"name": "name",
 				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "enderecoproprio",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

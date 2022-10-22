@@ -6,7 +6,7 @@ const voteForm = document.getElementById("vote-form");
 var proposals = [];
 var myAddress;
 var eleicao;
-const CONTRACT_ADDRESS = "0x85B54B20Aa44bCF88e52ff0c494d480D414964db";
+const CONTRACT_ADDRESS = "0x2515875fa612309A1C41142BAE0a0dd6DB1B4Fa7";
 
 
 const ethEnabled = () => {
@@ -43,6 +43,7 @@ window.addEventListener('load', async function() {
 
 		eleicao = new web3.eth.Contract(VotingContractInterface, CONTRACT_ADDRESS);
 		getCandidatos(populaCandidatos);
+		getEleitores()
 		verificarEncerramento();
 	}
 });
@@ -111,8 +112,30 @@ function populaCandidatos(candidatos) {
 	});
 }
 
-function buscarEleitores() {
+function populaEleitores(eleitores) {
+	$("#body-eleitores tr").remove();
+	eleitores.forEach(eleitor => {
+		const row = document.createElement('tr');
+		const nameCell = document.createElement('td');
+		const votedCell = document.createElement('td');
+		const delegateCell = document.createElement('td');
+		nameCell.innerText = eleitor.name;
+		votedCell.innerText = eleitor.voted ? 'Sim' : 'Não';
+		delegateCell.innerText = eleitor.delegate && eleitor.delegate != '0x0000000000000000000000000000000000000000' ? 'Sim' : 'Não';
+		row.appendChild(nameCell)
+		row.appendChild(votedCell)
+		row.appendChild(delegateCell)
+		$("#body-eleitores").append(row)
+	})
+}
 
+function getEleitores() {
+	eleicao.methods.retornarEleitores().call().then(result => {
+		populaEleitores(result)
+	}).catch(err => {
+		console.error(err)
+		alert('Erro ao buscar eleitores! Consulte o log')
+	})
 }
 
 function exibirEncerramento(nomeVencedor) {
@@ -131,7 +154,7 @@ $("#give-right-form").submit(function(e) {
 	console.log(data)
 	eleicao.methods.giveRightToVote(data.address, data.name)
 	.send({from: myAddress})
-	.then(() => buscarEleitores())
+	.then(() => getEleitores())
 	.catch((error) => {
 		console.error(error)
 		alert('Erro! Consulte o log!')
@@ -157,7 +180,7 @@ $("#delegate-form").submit((e) => {
 	console.log(data)
 	eleicao.methods.delegate(data.address)
 	.send({from: myAddress})
-	.then(() => buscarEleitores())
+	.then(() => getEleitores())
 	.catch((error) => {
 		console.error(error)
 		alert('Erro! Consulte o log!')
