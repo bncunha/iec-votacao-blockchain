@@ -45,6 +45,7 @@ window.addEventListener('load', async function() {
 		getCandidatos(populaCandidatos);
 		getEleitores()
 		verificarEncerramento();
+		$("#nrContrato").text(CONTRACT_ADDRESS)
 	}
 });
 
