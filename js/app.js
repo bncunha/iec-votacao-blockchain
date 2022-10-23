@@ -120,9 +120,10 @@ function populaEleitores(eleitores) {
 		const nameCell = document.createElement('td');
 		const votedCell = document.createElement('td');
 		const delegateCell = document.createElement('td');
+		const isDelegate = eleitor.delegate && eleitor.delegate != '0x0000000000000000000000000000000000000000';
 		nameCell.innerText = eleitor.name;
-		votedCell.innerText = eleitor.voted ? 'Sim' : 'Não';
-		delegateCell.innerText = eleitor.delegate && eleitor.delegate != '0x0000000000000000000000000000000000000000' ? 'Sim' : 'Não';
+		votedCell.innerText = eleitor.voted && !isDelegate ? 'Sim' : 'Não';
+		delegateCell.innerText = isDelegate ? 'Sim' : 'Não';
 		row.appendChild(nameCell)
 		row.appendChild(votedCell)
 		row.appendChild(delegateCell)
